@@ -28,10 +28,10 @@ class JourneyShowTest < ActionDispatch::IntegrationTest
     assert_equal events.length, 2,
       "Expected to see both events"
 
-    assert_equal events[0].css('.slug')[0].content, '/',
+    assert_equal '/', events[0].css('.slug')[0].content,
       "Expected to see the slug for the first event"
 
-    assert_equal events[1].css('.slug')[0].content, '/search?q="peaches"',
+    assert_equal '/search?q="peaches"', events[1].css('.slug')[0].content,
       "Expected to see the slug for the first event"
   end
 end
