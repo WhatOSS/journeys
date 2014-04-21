@@ -1,0 +1,9 @@
+<h1>Journeys</h1>
+
+<ul class="events">
+  <% @events.each do |event| %>
+    <li>
+      <span class="slug"><%= event.slug %></span>
+    </li>
+  <% end %>
+</ul>
