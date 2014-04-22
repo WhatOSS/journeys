@@ -1,0 +1,9 @@
+---
+
+- name: create a deploy user
+  user: name=deploy
+        state=present
+- name: Create the SSH directory.
+  file: state=directory path=/home/deploy/.ssh/
+- name: Copy SSH Public Key
+  command: cp /root/.ssh/authorized_keys /home/deploy/.ssh/authorized_keys
