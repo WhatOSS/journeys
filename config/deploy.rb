@@ -2,7 +2,7 @@
 lock '3.2.1'
 
 set :application, 'journeys'
-set :repo_url, 'git@github.com:WhatOSS/journeys.git'
+set :repo_url, 'https://github.com/WhatOSS/journeys.git'
 
 # Default value for :linked_files is []
 # set :linked_files, %w{config/database.yml}
