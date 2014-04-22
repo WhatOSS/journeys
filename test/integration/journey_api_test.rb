@@ -32,4 +32,40 @@ class JourneyApiTest < ActionDispatch::IntegrationTest
     assert_equal event_data[:user], journey.user,
       "Expected the journey to reference the same user"
   end
+
+  test "Posting a new event for a different user creates a new
+  journey for that event" do
+
+    old_journey = Journey.create(
+      user: 'some-old-user'
+    )
+
+    Event.create(
+      slug: "/sites/4324",
+      journey: old_journey
+    )
+
+    event_data = {
+      slug: "/sites/4324",
+      user: "different-user"
+    }
+
+    post "/events",
+      event_data.to_json,
+      "CONTENT_TYPE" => 'application/json'
+
+    assert_equal 2, Event.count,
+      "Expected one more event to have been created"
+
+    event = Event.last
+    journey = event.journey
+    assert_not_nil journey,
+      "Expected the event to be related to a journey"
+
+    assert_equal 'different-user', journey.user
+      "Expected the created journey to refer to the new user"
+
+    assert_equal 2, Journey.count,
+      "Expected one more journey to have been created"
+  end
 end
