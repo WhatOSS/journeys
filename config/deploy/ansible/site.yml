@@ -16,3 +16,4 @@
     - tmux
     - utils
     - ruby
+    - postgresql
