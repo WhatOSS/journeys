@@ -1,9 +1,11 @@
 require 'test_helper'
 
 class JourneyApiTest < ActionDispatch::IntegrationTest
-  test "Posting a new event with a slug creates a new journey and event" do
+  test "Posting a new event with a user creates a new journey
+  and event for that user and slug" do
     event_data = {
-      slug: "/sites/4324"
+      slug: "/sites/4324",
+      user: "10.1.1.5"
     }
 
     post "/events",
@@ -26,5 +28,8 @@ class JourneyApiTest < ActionDispatch::IntegrationTest
     journey = Journey.last
     assert_equal journey.id, event.journey_id,
       "Expected the event to be associated to the new journey"
+
+    assert_equal event_data[:user], journey.user,
+      "Expected the journey to reference the same user"
   end
 end
