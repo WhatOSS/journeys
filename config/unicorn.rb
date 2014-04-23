@@ -1,9 +1,7 @@
 # Set the working application directory
-# working_directory "/path/to/your/app"
-working_directory "/var/www/journeys"
+working_directory "/var/www/journeys/current"
 
 # Unicorn PID file location
-# pid "/path/to/pids/unicorn.pid"
 pid "/var/www/journeys/current/pids/unicorn.pid"
 
 # Path to logs
