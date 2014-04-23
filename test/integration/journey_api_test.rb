@@ -68,4 +68,31 @@ class JourneyApiTest < ActionDispatch::IntegrationTest
     assert_equal 2, Journey.count,
       "Expected one more journey to have been created"
   end
+
+  test "Posting a new event for a user with a journey from
+  the last 15 minutes associates the new event with that journey" do
+
+    existing_journey = Journey.create(
+      user: 'the-user'
+    )
+
+    event_data = {
+      slug: "/sites/4324",
+      user: "the-user"
+    }
+
+    post "/events",
+      event_data.to_json,
+      "CONTENT_TYPE" => 'application/json'
+
+    assert_equal 1, Event.count,
+      "Expected an event to be created"
+
+    event = Event.last
+    assert_equal existing_journey.id, event.journey_id,
+      "Expected the event to be associated to the existing journey"
+
+    assert_equal 1, Journey.count,
+      "Expected no more Journeys to be created"
+  end
 end
