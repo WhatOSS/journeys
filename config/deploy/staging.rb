@@ -6,6 +6,8 @@
 
 server '188.226.219.241', user: 'deploy', roles: %w{web app db}
 
+set :rails_env, :staging
+
 # Custom SSH Options
 # ==================
 # You may pass any option but keep in mind that net/ssh understands a
