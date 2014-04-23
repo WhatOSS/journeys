@@ -9,6 +9,7 @@
   when: ruby_version_installed.rc == 1
   with_items:
     - build-essential
+    - libssl-dev
     - libreadline6-dev
     - libyaml-dev
     - libsqlite3-dev
@@ -22,6 +23,7 @@
     - unzip
     - zlib1g
     - zlib1g-dev
+    - libpq-dev
 
 - name: Download ruby
   when: ruby_version_installed.rc == 1
@@ -38,3 +40,6 @@
     - ./configure
     - make
     - sudo make install
+
+- name: Install bundler
+  gem: name=bundler state=present

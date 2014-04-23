@@ -11,9 +11,3 @@
   sudo: yes
   notify:
     - restart nginx
-
-- name: Install app nginx config
-  template: src=app.nginx.j2 dest=/etc/nginx/sites-available/default
-  sudo: yes
-  notify:
-    - restart nginx
