@@ -71,22 +71,24 @@ class JourneyApiTest < ActionDispatch::IntegrationTest
 
   test "Posting a new event for a user with a journey from
   the last 15 minutes associates the new event with that journey" do
+    user = 'dat-user'
 
     existing_journey = Journey.create(
-      user: 'the-user'
+      user: user
     )
+    Event.create(journey: existing_journey, user: user)
 
     event_data = {
       slug: "/sites/4324",
-      user: "the-user"
+      user: user
     }
 
     post "/events",
       event_data.to_json,
       "CONTENT_TYPE" => 'application/json'
 
-    assert_equal 1, Event.count,
-      "Expected an event to be created"
+    assert_equal 2, Event.count,
+      "Expected a new event to be created"
 
     event = Event.last
     assert_equal existing_journey.id, event.journey_id,

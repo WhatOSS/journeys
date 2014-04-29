@@ -44,7 +44,7 @@ class JourneyTest < ActiveSupport::TestCase
 
     journey = Journey.find_open_journey_for_user(user)
 
-    assert_equal journey, open_journey,
+    assert_equal open_journey, journey,
       "Expected the existing journey to be returned"
   end
 
