@@ -12,8 +12,12 @@ class Journey < ActiveRecord::Base
   end
 
   def self.find_open_journey_for_user user
-    Journey.where(
-      user: user
-    ).first
+    event = Event.last_for_user_inside_journey_window(user)
+
+    if event.present?
+      return event.journey
+    else
+      return nil
+    end
   end
 end
