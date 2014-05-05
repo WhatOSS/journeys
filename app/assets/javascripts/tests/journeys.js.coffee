@@ -1,6 +1,6 @@
 suite('Journeys')
 
-test('.post sends the sends the current url to the journeys server', ->
+test('.post sends the current url to the journeys server', ->
 
   server = sinon.fakeServer.create()
 
@@ -20,4 +20,3 @@ test('.post sends the sends the current url to the journeys server', ->
   assert.strictEqual sentParams.slug, document.URL,
     "Expected the correct slug to be sent"
 )
-
