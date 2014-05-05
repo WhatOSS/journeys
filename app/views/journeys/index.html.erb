@@ -1,0 +1,9 @@
+<h1>Journeys</h1>
+
+<ul class="journeys">
+  <% @journeys.each do |journey| %>
+    <li>
+      <span class="user"><%= journey.user %></span>
+    </li>
+  <% end %>
+</ul>
