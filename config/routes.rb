@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   resources :journeys, only: [:show]
 
+  if Rails.env.development?
+    get "test", to: 'test#test'
+  end
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
