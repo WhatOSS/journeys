@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   resources :journeys, only: [:show]
+  resources :events, only: [:create]
 
   if Rails.env.development?
     get "test", to: 'test#test'
