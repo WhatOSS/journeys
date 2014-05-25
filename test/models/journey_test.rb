@@ -40,7 +40,7 @@ class JourneyTest < ActiveSupport::TestCase
   has an event in the last 15 minutes" do
     user = User.create()
     open_journey = Journey.create(user: user)
-    Event.create(journey: open_journey, user: user)
+    Event.create(journey: open_journey)
 
     journey = Journey.find_open_journey_for_user(user)
 
@@ -53,7 +53,6 @@ class JourneyTest < ActiveSupport::TestCase
     user = User.create(ip: '234.245.234.43')
     open_journey = Journey.create(user: user)
     Event.create(
-      user: user,
       journey: open_journey,
       created_at: 16.minutes.ago
     )
