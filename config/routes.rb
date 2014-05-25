@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :journeys, only: [:show]
+  resources :journeys, only: [:show, :index]
   resources :events, only: [:create]
 
   if Rails.env.development?
