@@ -1,4 +1,4 @@
-JOURNEY_SERVER = 'http://localhost:3000'
+JOURNEY_SERVER = 'http://stage.journ.cyanoryx.com'
 
 window.Journeys =
   post: ->
