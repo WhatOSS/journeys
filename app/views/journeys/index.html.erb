@@ -3,7 +3,7 @@
 <ul class="journeys">
   <% @journeys.each do |journey| %>
     <li>
-      <span class="user"><%= journey.user %></span>
+      <span class="user"><%= journey.user.ip %></span>
     </li>
   <% end %>
 </ul>

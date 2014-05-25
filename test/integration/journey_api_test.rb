@@ -4,13 +4,16 @@ class JourneyApiTest < ActionDispatch::IntegrationTest
   test "Posting a new event with a user creates a new journey
   and event for that user and slug" do
     event_data = {
-      slug: "/sites/4324",
-      user: "10.1.1.5"
+      slug: "/sites/4324"
     }
 
+    event_ip = '192.168.4.1'
+
     post "/events",
-      event_data.to_json,
-      "CONTENT_TYPE" => 'application/json'
+      event_data.to_json, {
+        "CONTENT_TYPE" => 'application/json',
+        "REMOTE_ADDR" => event_ip
+      }
 
     assert_equal 1, Event.count,
       "Expected one event to have been created"
@@ -29,15 +32,17 @@ class JourneyApiTest < ActionDispatch::IntegrationTest
     assert_equal journey.id, event.journey_id,
       "Expected the event to be associated to the new journey"
 
-    assert_equal event_data[:user], journey.user,
-      "Expected the journey to reference the same user"
+    journey_user = journey.user
+    assert_equal event_ip, journey_user.ip,
+      "Expected the journey to be associated with a user with
+      the correct IP"
   end
 
   test "Posting a new event for a different user creates a new
   journey for that event" do
 
     old_journey = Journey.create(
-      user: 'some-old-user'
+      user: User.create(ip: "123.124.124.253")
     )
 
     Event.create(
@@ -47,12 +52,14 @@ class JourneyApiTest < ActionDispatch::IntegrationTest
 
     event_data = {
       slug: "/sites/4324",
-      user: "different-user"
     }
 
+    new_user_ip = "244.244.244.123"
     post "/events",
-      event_data.to_json,
-      "CONTENT_TYPE" => 'application/json'
+      event_data.to_json, {
+        "CONTENT_TYPE" => 'application/json',
+        "REMOTE_ADDR" => new_user_ip
+      }
 
     assert_equal 2, Event.count,
       "Expected one more event to have been created"
@@ -62,8 +69,8 @@ class JourneyApiTest < ActionDispatch::IntegrationTest
     assert_not_nil journey,
       "Expected the event to be related to a journey"
 
-    assert_equal 'different-user', journey.user
-      "Expected the created journey to refer to the new user"
+    assert_equal new_user_ip, journey.user.ip
+      "Expected the created journey to refer to the new user ip"
 
     assert_equal 2, Journey.count,
       "Expected one more journey to have been created"
@@ -71,7 +78,7 @@ class JourneyApiTest < ActionDispatch::IntegrationTest
 
   test "Posting a new event for a user with a journey from
   the last 15 minutes associates the new event with that journey" do
-    user = 'dat-user'
+    user = User.create(ip: "123.123.123.123")
 
     existing_journey = Journey.create(
       user: user
@@ -80,12 +87,13 @@ class JourneyApiTest < ActionDispatch::IntegrationTest
 
     event_data = {
       slug: "/sites/4324",
-      user: user
     }
 
     post "/events",
-      event_data.to_json,
-      "CONTENT_TYPE" => 'application/json'
+      event_data.to_json, {
+        "CONTENT_TYPE" => 'application/json',
+        "REMOTE_ADDR" => user.ip
+      }
 
     assert_equal 2, Event.count,
       "Expected a new event to be created"
