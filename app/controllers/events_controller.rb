@@ -1,4 +1,6 @@
 class EventsController < ApplicationController
+  protect_from_forgery :except => :create
+
   def create
     user = User.find_or_create_by(ip: request.remote_ip)
     journey = Journey.find_or_create_open_journey_for_user(

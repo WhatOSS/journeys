@@ -13,12 +13,10 @@ class Journey < ActiveRecord::Base
   end
 
   def self.find_open_journey_for_user user
-    event = Event.last_for_user_inside_journey_window(user)
-
-    if event.present?
-      return event.journey
-    else
-      return nil
-    end
+    self.joins(:events).
+      where(user: user).
+      where("events.created_at > ?", 15.minutes.ago).
+      order("created_at DESC").
+      limit(1).last
   end
 end
