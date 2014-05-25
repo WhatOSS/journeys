@@ -10,7 +10,7 @@ test('.post sends the current url to the journeys server', ->
 
   assert.isDefined request, "Expected a request to be sent"
 
-  assert.strictEqual request.url, "http://localhost:3000/events",
+  assert.strictEqual request.url, "http://stage.journ.cyanoryx.com/events",
     "Expected the request to be sent to the journey server"
 
   assert.strictEqual request.method, "POST",
