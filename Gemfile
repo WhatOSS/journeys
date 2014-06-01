@@ -23,6 +23,10 @@ gem 'spring',        group: :development
 
 gem 'rack-cors', :require => 'rack/cors'
 
+group :development, :test do
+  gem 'debugger'
+end
+
 group :test do
   gem 'nokogiri'
   gem 'mocha'
