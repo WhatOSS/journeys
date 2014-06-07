@@ -13,3 +13,7 @@ development:
 test:
   <<: *default
   database: "journeys_test"
+
+production:
+  <<: *default
+  database: "journeys_development"
