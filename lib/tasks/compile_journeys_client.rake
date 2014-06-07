@@ -17,8 +17,17 @@ namespace :assets do
         if file_matcher.match(file_name)
           target = "#{OUTPUT_DIR}#{OUTPUT_FILENAME}"
 
-          FileUtils.move( file_name, target)
+          FileUtils.mv(
+            file_name,
+            target
+          )
+          puts "Wrote client to #{target}"
 
+
+          FileUtils.cp(
+            target,
+            "./public/#{OUTPUT_FILENAME}"
+          )
           puts "Wrote client to #{target}"
         else
           File.delete(file_name)
