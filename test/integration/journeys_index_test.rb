@@ -31,5 +31,11 @@ class JourneyIndexTest < ActionDispatch::IntegrationTest
 
     assert_equal first_journey_date, journeys[0].css('.time')[0].content.strip,
       "Expected to see the time the journey started"
+
+    assert_equal(
+      1,
+      journeys[0].css("a[href='/journeys/#{journey_one.id}']").length,
+      "Expected to see the time the journey started"
+    )
   end
 end
