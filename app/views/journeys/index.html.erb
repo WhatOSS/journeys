@@ -3,7 +3,12 @@
 <ul class="journeys">
   <% @journeys.each do |journey| %>
     <li>
-      <span class="user"><%= journey.user.ip %></span>
+      <%= link_to journey do %>
+        <span class="time">
+          <%= journey.created_at.strftime("%Y-%m-%d %H:%M") %>
+        </span>
+        <span class="user"><%= journey.user.ip %></span>
+      <% end %>
     </li>
   <% end %>
 </ul>
