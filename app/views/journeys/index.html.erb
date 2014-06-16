@@ -1,13 +1,24 @@
 <h1>Journeys</h1>
 
-<ul class="journeys">
+<ul class="sixteen columns journeys">
   <% @journeys.each do |journey| %>
     <li>
       <%= link_to journey do %>
-        <span class="time">
-          <%= journey.created_at.strftime("%Y-%m-%d %H:%M") %>
-        </span>
-        <span class="user"><%= journey.user.ip %></span>
+        <div class="container column">
+          <span class="time">
+            <%= journey.created_at.strftime("%Y-%m-%d %H:%M") %>
+          </span>
+          -
+          <span class="user"><%= journey.user.ip %></span>
+        </div>
+
+        <div class="container">
+          <span class="first-event-url ten column clearfix">
+            http://www.protectedplanet.net/search?country_id=54&designation_id=1336&q=americas
+          </span>
+          <span class="event-count two column clearfix">6 events</span>
+        </div>
+
       <% end %>
     </li>
   <% end %>

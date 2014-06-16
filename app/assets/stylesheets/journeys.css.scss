@@ -1,3 +1,31 @@
 // Place all the styles related to the journeys controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.journeys {
+  li {
+    border-bottom: 1px solid #F5F5F5;
+    padding-bottom: 15px;
+
+    a {
+      text-decoration: none;
+    }
+
+    .time, .user {
+      color: #666;
+    }
+
+    .first-event-url {
+      font-size: 18px;
+    }
+    .event-count {
+      line-height: 18px;
+
+      padding: 0px 5px;
+
+      color: #309DE5;
+      border: 1px solid #309DE5;
+      border-radius: 15px;
+    }
+  }
+}
