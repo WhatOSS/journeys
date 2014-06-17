@@ -14,7 +14,7 @@
 
         <div class="container">
           <span class="first-event-url ten column clearfix">
-            http://www.protectedplanet.net/search?country_id=54&designation_id=1336&q=americas
+            <%= journey.events.limit(1).first.try(:slug) %>
           </span>
           <span class="event-count two column clearfix">6 events</span>
         </div>

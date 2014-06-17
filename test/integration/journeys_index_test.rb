@@ -38,4 +38,31 @@ class JourneyIndexTest < ActionDispatch::IntegrationTest
       "Expected to see the time the journey started"
     )
   end
+
+  test "Journeys on the index show their first visit URL" do
+    journey = Journey.create!(user: User.create!())
+    first_event = Event.create!(
+      journey: journey,
+      slug: "http://pretoria.com/spanish"
+    )
+    second_event = Event.create!(
+      journey: journey,
+      slug: "http://later.com/"
+    )
+
+    get "/journeys"
+
+    assert_response :success
+
+    assert_select '.first-event-url', {
+      count: 1
+    }
+
+    page = Nokogiri::HTML(response.body)
+
+    first_event_text = page.css('.first-event-url').first.content.strip
+
+    assert_equal first_event.slug, first_event_text
+      "Expected the first events text to be shown"
+  end
 end
