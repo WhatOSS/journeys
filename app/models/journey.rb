@@ -2,6 +2,8 @@ class Journey < ActiveRecord::Base
   has_many :events
   belongs_to :user
 
+  validates_presence_of :user
+
   def self.find_or_create_open_journey_for_user user
     journey = Journey.find_open_journey_for_user user
 

@@ -3,7 +3,7 @@ require 'nokogiri'
 
 class JourneyShowTest < ActionDispatch::IntegrationTest
   test "visiting a journey shows the list of slugs for the associated events" do
-    journey = Journey.create()
+    journey = Journey.create(user: User.create())
     Event.create({
       journey: journey,
       slug: "/"
