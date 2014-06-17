@@ -21,4 +21,8 @@ class Journey < ActiveRecord::Base
       order("created_at DESC").
       limit(1).last
   end
+
+  def first_event
+    events.order("created_at ASC").limit(1).first
+  end
 end

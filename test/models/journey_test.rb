@@ -61,4 +61,23 @@ class JourneyTest < ActiveSupport::TestCase
 
     assert_nil journey, "Expected no journey to be returned"
   end
+
+  test ".first_event returns the first event ordered by created_by" do
+    journey = Journey.create!(user: User.create!())
+
+    second_event = journey.events.create!()
+    first_event = journey.events.create(
+      created_at: 3.minutes.ago
+    )
+
+    assert_equal first_event, journey.first_event,
+      "Expected the correct event to be returned"
+  end
+
+  test ".first_event returns nil if no events are associated" do
+    journey = Journey.create!(user: User.create!())
+
+    assert_nil journey.first_event,
+      "Expected nil to be returned"
+  end
 end
