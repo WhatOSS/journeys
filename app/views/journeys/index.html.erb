@@ -16,7 +16,9 @@
           <span class="first-event-url ten column clearfix">
             <%= journey.first_event.try(:slug) %>
           </span>
-          <span class="event-count two column clearfix">6 events</span>
+          <span class="event-count two column clearfix">
+            <%= journey.events.count %> events
+          </span>
         </div>
 
       <% end %>
