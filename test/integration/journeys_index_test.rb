@@ -95,4 +95,31 @@ class JourneyIndexTest < ActionDispatch::IntegrationTest
     assert_equal "0 events", journeys[1].css('.event-count')[0].content.strip,
       "Expected to see the correct number of events for the second journey"
   end
+
+  test "Journeys index only shows the 10 most recent journeys" do
+    user = User.create!()
+    old_journey = Journey.create!(
+      user: user,
+      created_at: 5.minutes.ago
+    )
+
+    11.times do
+      Journey.create!(user: user)
+    end
+
+    get "/journeys"
+
+    assert_response :success
+
+    page = Nokogiri::HTML(response.body)
+
+    journeys = page.css('.journeys > li')
+
+    assert_equal 10, journeys.length,
+      "Expected to see only 10 journeys"
+
+    old_journey_links = page.css("a[href=\"/journeys/#{old_journey}\"]")
+    assert_equal 0, old_journey_links.length,
+      "Expected not to see a link to the older journey"
+  end
 end
