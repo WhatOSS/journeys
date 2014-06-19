@@ -1,6 +1,6 @@
 class JourneysController < ApplicationController
   def index
-    @journeys = Journey.all.limit(10)
+    @journeys = Journey.order("created_at DESC").limit(10)
   end
 
   def show

@@ -5,11 +5,14 @@ class JourneyIndexTest < ActionDispatch::IntegrationTest
   test "Visiting the Journey index shows the lists of recent journeys" do
 
     first_journey_date = "2014-03-01 14:32"
-    journey_one = Journey.create(
+    older_journey = Journey.create(
       user: User.create(ip: "10.12.13.14"),
       created_at: Time.parse(first_journey_date)
     )
-    journey_two = Journey.create(user: User.create(ip: "192.168.1.1"))
+    newer_journey = Journey.create(
+      user: User.create(ip: "192.168.1.1"),
+      created_at: Time.parse(first_journey_date) + 1.days
+    )
 
     get "/journeys"
 
@@ -26,16 +29,16 @@ class JourneyIndexTest < ActionDispatch::IntegrationTest
     assert_equal journeys.length, 2,
       "Expected to see 2 journeys"
 
-    assert_equal journey_one.user.ip, journeys[0].css('.user')[0].content,
+    assert_equal older_journey.user.ip, journeys[1].css('.user')[0].content,
       "Expected to see the user for the first journey"
 
-    assert_equal first_journey_date, journeys[0].css('.time')[0].content.strip,
+    assert_equal first_journey_date, journeys[1].css('.time')[0].content.strip,
       "Expected to see the time the journey started"
 
     assert_equal(
       1,
-      journeys[0].css("a[href='/journeys/#{journey_one.id}']").length,
-      "Expected to see the time the journey started"
+      journeys[1].css("a[href='/journeys/#{older_journey.id}']").length,
+      "Expected to see a link to the journey"
     )
   end
 
@@ -89,11 +92,11 @@ class JourneyIndexTest < ActionDispatch::IntegrationTest
     assert_equal journeys.length, 2,
       "Expected to see 2 journeys"
 
-    assert_equal "3 events", journeys[0].css('.event-count')[0].content.strip,
-      "Expected to see the correct number of events for the first journey"
-
-    assert_equal "0 events", journeys[1].css('.event-count')[0].content.strip,
+    assert_equal "0 events", journeys[0].css('.event-count')[0].content.strip,
       "Expected to see the correct number of events for the second journey"
+
+    assert_equal "3 events", journeys[1].css('.event-count')[0].content.strip,
+      "Expected to see the correct number of events for the first journey"
   end
 
   test "Journeys index only shows the 10 most recent journeys" do
@@ -118,7 +121,7 @@ class JourneyIndexTest < ActionDispatch::IntegrationTest
     assert_equal 10, journeys.length,
       "Expected to see only 10 journeys"
 
-    old_journey_links = page.css("a[href=\"/journeys/#{old_journey}\"]")
+    old_journey_links = page.css("a[href=\"/journeys/#{old_journey.id}\"]")
     assert_equal 0, old_journey_links.length,
       "Expected not to see a link to the older journey"
   end
