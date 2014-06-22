@@ -20,7 +20,6 @@ class Journey < ActiveRecord::Base
     self.joins(:events).
       where(user: user).
       where("events.created_at > ?", 15.minutes.ago).
-      order("created_at DESC").
       limit(1).last
   end
 
