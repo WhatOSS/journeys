@@ -4,6 +4,8 @@ class Journey < ActiveRecord::Base
 
   validates_presence_of :user
 
+  default_scope { order('created_at DESC') }
+
   def self.find_or_create_open_journey_for_user user
     journey = Journey.find_open_journey_for_user user
 

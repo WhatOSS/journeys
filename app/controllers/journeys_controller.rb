@@ -2,7 +2,7 @@ class JourneysController < ApplicationController
   PER_PAGE = 10
 
   def index
-    @journeys = Journey.order("created_at DESC").limit(PER_PAGE)
+    @journeys = Journey.limit(PER_PAGE)
   end
 
   def show

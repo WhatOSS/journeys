@@ -80,4 +80,16 @@ class JourneyTest < ActiveSupport::TestCase
     assert_nil journey.first_event,
       "Expected nil to be returned"
   end
+
+  test ".all returns records ordered by created_at DESC" do
+    old_journey = Journey.create!(
+      user: User.create!(),
+      created_at: 15.minutes.ago
+    )
+    new_journey = Journey.create!(user: User.create!())
+
+    results = Journey.all
+    assert_equal new_journey, results.first,
+      "Expected the newest journey to be returned first"
+  end
 end
