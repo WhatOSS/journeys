@@ -1,8 +1,7 @@
 class JourneysController < ApplicationController
-  PER_PAGE = 10
 
   def index
-    @journeys = Journey.limit(PER_PAGE)
+    @journeys = Journey.page
   end
 
   def show

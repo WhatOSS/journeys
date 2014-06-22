@@ -6,6 +6,15 @@ class Journey < ActiveRecord::Base
 
   default_scope { order('created_at DESC') }
 
+  PER_PAGE = 10
+
+  def self.page page = 1
+    offset = (page-1)*PER_PAGE
+
+    self.offset(offset)
+      .limit(PER_PAGE)
+  end
+
   def self.find_or_create_open_journey_for_user user
     journey = Journey.find_open_journey_for_user user
 

@@ -92,4 +92,40 @@ class JourneyTest < ActiveSupport::TestCase
     assert_equal new_journey, results.first,
       "Expected the newest journey to be returned first"
   end
+
+  test ".page with no arguments returns the first page" do
+    journeys = [Journey.new()]
+
+    LimitMock = Struct.new(:journeys) {
+      def limit amount
+        journeys
+      end
+    }
+
+    Journey.expects(:offset)
+      .with(0)
+      .returns(LimitMock.new(journeys))
+
+    result = Journey.page
+    assert_equal result, journeys,
+      "Expected the result of limit to be returned"
+  end
+
+  test ".page returns journeys offset by the given page number" do
+    journeys = [Journey.new()]
+
+    LimitMock = Struct.new(:journeys) {
+      def limit amount
+        journeys
+      end
+    }
+
+    Journey.expects(:offset)
+      .with(20)
+      .returns(LimitMock.new(journeys))
+
+    result = Journey.page 3
+    assert_equal result, journeys,
+      "Expected the correct journeys to be returned"
+  end
 end
