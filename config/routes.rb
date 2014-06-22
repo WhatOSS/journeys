@@ -2,6 +2,11 @@ Rails.application.routes.draw do
   root 'journeys#index'
 
   resources :journeys, only: [:show, :index]
+
+  namespace :partials do
+    resources :journeys, only: [:index]
+  end
+
   resources :events, only: [:create]
 
   if Rails.env.development?

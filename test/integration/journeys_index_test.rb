@@ -125,4 +125,59 @@ class JourneyIndexTest < ActionDispatch::IntegrationTest
     assert_equal 0, old_journey_links.length,
       "Expected not to see a link to the older journey"
   end
+
+  test "Journey list shows 10 journeys for the given page" do
+    user = User.create!()
+    # First page journeys
+    newest_journey = Journey.create!(
+      user: user
+    )
+
+    9.times do
+      Journey.create!(
+        user: user
+      )
+    end
+
+    # Second page journeys
+    second_page_journey = Journey.create!(
+      user: user,
+      created_at: 2.minutes.ago
+    )
+
+    9.times do
+      Journey.create!(
+        user: user,
+        created_at: 2.minutes.ago
+      )
+    end
+
+    oldest_journey = Journey.create!(
+      user: user,
+      created_at: 3.minutes.ago
+    )
+
+    get "/partials/journeys?page=2"
+
+    page = Nokogiri::HTML(response.body)
+
+    journeys = page.css('li')
+
+    assert_equal 10, journeys.length,
+      "Expected to see only 10 journeys"
+
+    new_journey_links = page.css("a[href=\"/journeys/#{newest_journey.id}\"]")
+    assert_equal 0, new_journey_links.length,
+      "Expected not to see a link to the newest journey"
+
+    second_page_journey_links = page.css(
+      "a[href=\"/journeys/#{second_page_journey.id}\"]"
+    )
+    assert_equal 1, second_page_journey_links.length,
+      "Expected to see a link to the the second page journey"
+
+    old_journey_links = page.css("a[href=\"/journeys/#{oldest_journey.id}\"]")
+    assert_equal 0, old_journey_links.length,
+      "Expected not to see a link to the older journey"
+  end
 end
