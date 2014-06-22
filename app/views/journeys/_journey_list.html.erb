@@ -1,0 +1,23 @@
+<% journeys.each do |journey| %>
+  <li>
+    <%= link_to journey do %>
+      <div class="container column">
+        <span class="time">
+          <%= journey.created_at.strftime("%Y-%m-%d %H:%M") %>
+        </span>
+        -
+        <span class="user"><%= journey.user.ip %></span>
+      </div>
+
+      <div class="container">
+        <span class="first-event-url ten column clearfix">
+          <%= journey.first_event.try(:slug) %>
+        </span>
+        <span class="event-count two column clearfix">
+          <%= journey.events.count %> events
+        </span>
+      </div>
+
+    <% end %>
+  </li>
+<% end %>
