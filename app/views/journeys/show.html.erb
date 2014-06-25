@@ -1,8 +1,9 @@
-<h1>Journeys</h1>
+<h1>2014-06-16 12:02 - 192.168.0.1</h1>
 
 <ul class="events">
   <% @events.each do |event| %>
-    <li>
+    <li class="container column">
+      <span class="time">2 minutes</span> -
       <span class="slug"><%= event.slug %></span>
     </li>
   <% end %>
